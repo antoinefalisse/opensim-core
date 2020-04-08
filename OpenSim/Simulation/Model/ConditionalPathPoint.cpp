@@ -26,6 +26,7 @@
 //=============================================================================
 #include "ConditionalPathPoint.h"
 #include <OpenSim/Simulation/SimbodyEngine/Coordinate.h>
+#include <OpenSim/Common/XMLDocument.h>
 
 //=============================================================================
 // STATICS
@@ -57,25 +58,25 @@ ConditionalPathPoint::~ConditionalPathPoint()
  * Override default implementation by object to intercept and fix the XML node
  * underneath the model to match current version
  */
-//void ConditionalPathPoint::updateFromXMLNode(SimTK::Xml::Element& node, 
-//                                             int versionNumber)
-//{
-//    if (versionNumber <= 20001) {
-//        // Version has to be 1.6 or later, otherwise assert
-//        XMLDocument::renameChildNode(node, "coordinates", "coordinate");
-//    }
-//    if (versionNumber < 30505) {
-//        // replace old properties with latest use of Sockets
-//        SimTK::Xml::element_iterator coord = node.element_begin("coordinate");
-//        std::string coord_name("");
-//        if (coord != node.element_end())
-//            coord->getValueAs<std::string>(coord_name);
-//        XMLDocument::addConnector(node, "Connector_Coordinate_", "coordinate", coord_name);
-//    }
-//
-//    // Call base class now assuming _node has been corrected for current version
-//    Super::updateFromXMLNode(node, versionNumber);
-//}
+void ConditionalPathPoint::updateFromXMLNode(SimTK::Xml::Element& node, 
+                                             int versionNumber)
+{
+    if (versionNumber <= 20001) {
+        // Version has to be 1.6 or later, otherwise assert
+        XMLDocument::renameChildNode(node, "coordinates", "coordinate");
+    }
+    if (versionNumber < 30505) {
+        // replace old properties with latest use of Sockets
+        SimTK::Xml::element_iterator coord = node.element_begin("coordinate");
+        std::string coord_name("");
+        if (coord != node.element_end())
+            coord->getValueAs<std::string>(coord_name);
+        XMLDocument::addConnector(node, "Connector_Coordinate_", "coordinate", coord_name);
+    }
+
+    // Call base class now assuming _node has been corrected for current version
+    Super::updateFromXMLNode(node, versionNumber);
+}
 
 //_____________________________________________________________________________
 /*

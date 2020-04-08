@@ -772,43 +772,43 @@ public:
     // Property element is a value element, so the values is just a single
     // string. We'll divide into blank-separated tokens and then parse
     // into elements of type T.
-    //void readFromXMLElement
-    //   (SimTK::Xml::Element& propertyElement,
-    //    int                  versionNumber) override final {
-    //    std::istringstream valstream(propertyElement.getValue());
-    //    if (!readSimplePropertyFromStream(valstream)) {
-    //        std::cerr << "Failed to read " << SimTK::NiceTypeName<T>::name()
-    //        << " property " << this->getName() << "; input='" 
-    //        << valstream.str().substr(0,50) // limit displayed length
-    //        << "'.\n";
-    //    }
-    //    if (values.size() < this->getMinListSize()) {
-    //        std::cerr << "Not enough values for " 
-    //        << SimTK::NiceTypeName<T>::name() << " property " << this->getName() 
-    //        << "; input='" << valstream.str().substr(0,50) // limit displayed length 
-    //        << "'. Expected " << this->getMinListSize()
-    //        << ", got " << values.size() << ".\n";
-    //    }
-    //    if (values.size() > this->getMaxListSize()) {
-    //        std::cerr << "Too many values for " 
-    //        << SimTK::NiceTypeName<T>::name() << " property " << this->getName() 
-    //        << "; input='" << valstream.str().substr(0,50) // limit displayed length 
-    //        << "'. Expected " << this->getMaxListSize()
-    //        << ", got " << values.size() << ". Ignoring extras.\n";
+    void readFromXMLElement
+       (SimTK::Xml::Element& propertyElement,
+        int                  versionNumber) override final {
+        std::istringstream valstream(propertyElement.getValue());
+        if (!readSimplePropertyFromStream(valstream)) {
+            std::cerr << "Failed to read " << SimTK::NiceTypeName<T>::name()
+            << " property " << this->getName() << "; input='" 
+            << valstream.str().substr(0,50) // limit displayed length
+            << "'.\n";
+        }
+        if (values.size() < this->getMinListSize()) {
+            std::cerr << "Not enough values for " 
+            << SimTK::NiceTypeName<T>::name() << " property " << this->getName() 
+            << "; input='" << valstream.str().substr(0,50) // limit displayed length 
+            << "'. Expected " << this->getMinListSize()
+            << ", got " << values.size() << ".\n";
+        }
+        if (values.size() > this->getMaxListSize()) {
+            std::cerr << "Too many values for " 
+            << SimTK::NiceTypeName<T>::name() << " property " << this->getName() 
+            << "; input='" << valstream.str().substr(0,50) // limit displayed length 
+            << "'. Expected " << this->getMaxListSize()
+            << ", got " << values.size() << ". Ignoring extras.\n";
 
-    //        values.resize(this->getMaxListSize());
-    //    }
-    //}
+            values.resize(this->getMaxListSize());
+        }
+    }
 
     // Property element will be just a value element. We'll serialize it
     // using an unformatted write to produce a series of blank-separated 
     // tokens.
-    /*void writeToXMLElement
+    void writeToXMLElement
        (SimTK::Xml::Element& propertyElement) const override final {
         std::ostringstream valstream;
         writeSimplePropertyToStream(valstream);
         propertyElement.setValue(valstream.str()); 
-    } */
+    } 
 
 
     const Object& getValueAsObject(int index=-1) const override final {
@@ -1006,11 +1006,11 @@ public:
     bool isAcceptableObjectTag(const std::string& objectTypeTag) const override
         final;
     bool isEqualTo(const AbstractProperty& other) const override final;
-    /*void readFromXMLElement
+    void readFromXMLElement
        (SimTK::Xml::Element& propertyElement,
         int                  versionNumber) override final;
     void writeToXMLElement
-       (SimTK::Xml::Element& propertyElement) const override final;*/
+       (SimTK::Xml::Element& propertyElement) const override final;
     void setValueAsObject(const Object& obj, int index=-1) override final;
 
     bool isUnnamedProperty() const override final {return isUnnamed;}

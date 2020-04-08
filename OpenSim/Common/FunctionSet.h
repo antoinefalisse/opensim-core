@@ -59,7 +59,7 @@ public:
     // CONSTRUCTION
     //--------------------------------------------------------------------------
     FunctionSet();
-    //FunctionSet(const std::string &aFileName);
+    FunctionSet(const std::string &aFileName);
     virtual ~FunctionSet();
 
 private:

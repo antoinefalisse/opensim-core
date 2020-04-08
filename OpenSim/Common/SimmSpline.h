@@ -124,7 +124,7 @@ public:
     int getMaxDerivativeOrder() const override;
     SimTK::Function* createSimTKFunction() const override;
 
-    //void updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber=-1) override;
+    void updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber=-1) override;
 
 private:
     void calcCoefficients();

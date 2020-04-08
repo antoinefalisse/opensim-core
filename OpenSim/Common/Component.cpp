@@ -25,7 +25,7 @@
 // INCLUDES
 #include "Component.h"
 #include "OpenSim/Common/IO.h"
-//#include "XMLDocument.h"
+#include "XMLDocument.h"
 #include <unordered_map>
 
 
@@ -115,16 +115,16 @@ Component::Component() : Object()
     constructProperty_components();
 }
 
-//Component::Component(const std::string& fileName, bool updFromXMLNode)
-//:   Object(fileName, updFromXMLNode)
-//{
-//    constructProperty_components();
-//}
+Component::Component(const std::string& fileName, bool updFromXMLNode)
+:   Object(fileName, updFromXMLNode)
+{
+    constructProperty_components();
+}
 
-//Component::Component(SimTK::Xml::Element& element) : Object(element)
-//{
-//    constructProperty_components();
-//}
+Component::Component(SimTK::Xml::Element& element) : Object(element)
+{
+    constructProperty_components();
+}
 
 void Component::addComponent(Component* subcomponent)
 {
@@ -1038,42 +1038,42 @@ void Component::setNextSubcomponentInSystem(const Component& sub) const
     }
 }
 
-//void Component::updateFromXMLNode(SimTK::Xml::Element& node, int versionNumber)
-//{
-//    if (versionNumber < XMLDocument::getLatestVersion()) {
-//        if (versionNumber < 30508) {
-//            // Here's an example of the change this function might make:
-//            // Previous: <connectors>
-//            //               <Connector_PhysicalFrame_ name="parent">
-//            //                   <connectee_name>...</connectee_name>
-//            //               </Connector_PhysicalFrame_>
-//            //           </connectors>
-//            // New:      <connector_parent_connectee_name>...
-//            //           </connector_parent_connectee_name>
-//            //
-//            XMLDocument::updateConnectors30508(node);
-//        }
-//
-//        if(versionNumber < 30510) {
-//            // Before -- <connector_....> ... </connector_...>
-//            // After  -- <socket_...> ... </socket_...>
-//            for(auto iter = node.element_begin();
-//                iter != node.element_end();
-//                ++iter) {
-//                std::string oldName{"connector"};
-//                std::string newName{"socket"};
-//                auto tagname = iter->getElementTag();
-//                auto pos = tagname.find(oldName);
-//                if(pos != std::string::npos) {
-//                    tagname.replace(pos, oldName.length(), newName);
-//                    iter->setElementTag(tagname);
-//                }
-//            }
-//            
-//        }
-//    }
-//    Super::updateFromXMLNode(node, versionNumber);
-//}
+void Component::updateFromXMLNode(SimTK::Xml::Element& node, int versionNumber)
+{
+    if (versionNumber < XMLDocument::getLatestVersion()) {
+        if (versionNumber < 30508) {
+            // Here's an example of the change this function might make:
+            // Previous: <connectors>
+            //               <Connector_PhysicalFrame_ name="parent">
+            //                   <connectee_name>...</connectee_name>
+            //               </Connector_PhysicalFrame_>
+            //           </connectors>
+            // New:      <connector_parent_connectee_name>...
+            //           </connector_parent_connectee_name>
+            //
+            XMLDocument::updateConnectors30508(node);
+        }
+
+        if(versionNumber < 30510) {
+            // Before -- <connector_....> ... </connector_...>
+            // After  -- <socket_...> ... </socket_...>
+            for(auto iter = node.element_begin();
+                iter != node.element_end();
+                ++iter) {
+                std::string oldName{"connector"};
+                std::string newName{"socket"};
+                auto tagname = iter->getElementTag();
+                auto pos = tagname.find(oldName);
+                if(pos != std::string::npos) {
+                    tagname.replace(pos, oldName.length(), newName);
+                    iter->setElementTag(tagname);
+                }
+            }
+            
+        }
+    }
+    Super::updateFromXMLNode(node, versionNumber);
+}
 
 // mark components owned as properties as subcomponents
 void Component::markPropertiesAsSubcomponents()

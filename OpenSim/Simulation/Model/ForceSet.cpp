@@ -68,14 +68,14 @@ ModelComponentSet<Force>(model)
  *
  * @param aFileName Name of the file.
  */
-//ForceSet::ForceSet(Model& model, const std::string &aFileName, bool aUpdateFromXMLNode) :
-//    ModelComponentSet<Force>(model, aFileName, false)
-//{
-//    setNull();
-//
-//    if(aUpdateFromXMLNode)
-//        updateFromXMLDocument();
-//}
+ForceSet::ForceSet(Model& model, const std::string &aFileName, bool aUpdateFromXMLNode) :
+    ModelComponentSet<Force>(model, aFileName, false)
+{
+    setNull();
+
+    if(aUpdateFromXMLNode)
+        updateFromXMLDocument();
+}
 
 
 //_____________________________________________________________________________

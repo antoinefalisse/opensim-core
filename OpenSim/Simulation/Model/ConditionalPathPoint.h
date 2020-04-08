@@ -77,7 +77,7 @@ public:
 
 private:
     void constructProperties();
-    //void updateFromXMLNode(SimTK::Xml::Element& node, int versionNumber) override;
+    void updateFromXMLNode(SimTK::Xml::Element& node, int versionNumber) override;
 //=============================================================================
 };  // END of class ConditionalPathPoint
 //=============================================================================

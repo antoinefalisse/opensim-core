@@ -59,29 +59,29 @@ void Force::constructProperties()
     constructProperty_appliesForce(true);
 }
 
-//void
-//Force::updateFromXMLNode(SimTK::Xml::Element& node, int versionNumber) {
-//    if(versionNumber < XMLDocument::getLatestVersion()) {
-//        if (versionNumber < 30509) {
-//            // Rename property 'isDisabled' to 'appliesForce' and
-//            // negate the contained value.
-//            std::string oldName{ "isDisabled" };
-//            std::string newName{ "appliesForce" };
-//            if (node.hasElement(oldName)) {
-//                auto elem = node.getRequiredElement(oldName);
-//                bool isDisabled = false;
-//                elem.getValue().tryConvertToBool(isDisabled);
-//
-//                // now update tag name to 'appliesForce'
-//                elem.setElementTag(newName);
-//                // update its value to be the opposite of 'isDisabled'
-//                elem.setValue(SimTK::String(!isDisabled));
-//            }
-//        }
-//    }
-//
-//    Super::updateFromXMLNode(node, versionNumber);
-//}
+void
+Force::updateFromXMLNode(SimTK::Xml::Element& node, int versionNumber) {
+    if(versionNumber < XMLDocument::getLatestVersion()) {
+        if (versionNumber < 30509) {
+            // Rename property 'isDisabled' to 'appliesForce' and
+            // negate the contained value.
+            std::string oldName{ "isDisabled" };
+            std::string newName{ "appliesForce" };
+            if (node.hasElement(oldName)) {
+                auto elem = node.getRequiredElement(oldName);
+                bool isDisabled = false;
+                elem.getValue().tryConvertToBool(isDisabled);
+
+                // now update tag name to 'appliesForce'
+                elem.setElementTag(newName);
+                // update its value to be the opposite of 'isDisabled'
+                elem.setValue(SimTK::String(!isDisabled));
+            }
+        }
+    }
+
+    Super::updateFromXMLNode(node, versionNumber);
+}
 
 // Create an underlying SimTK::Force to represent the OpenSim::Force in the 
 // computational system.  Create a SimTK::Force::Custom by default.
