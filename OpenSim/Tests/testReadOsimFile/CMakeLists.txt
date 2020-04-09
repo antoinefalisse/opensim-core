@@ -30,6 +30,7 @@ foreach(dataFile ${TEST_FILES})
     ${dataFile}
     ${TEST_DIR})
 endforeach(dataFile) 
+OpenSimCopySharedTestFiles(arm26_noMuscles.osim gait2354_simbody_noMuscles_nokneeYamag.osim)
 
 #
 # Testing
@@ -44,6 +45,7 @@ add_test(${TEST_TARGET}Runs ${TEST_PATH}/${EXAMPLE_TARGET})
 add_test(${TEST_TARGET} ${TEST_PATH}/${TEST_TARGET})
 
 set_tests_properties(${TEST_TARGET} PROPERTIES DEPENDS ${TEST_TARGET}Runs)
+include_directories(${TEST_PATH})
 
 # set_target_properties(${EXAMPLE_TARGET} PROPERTIES
     # FOLDER "Examples")

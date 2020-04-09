@@ -37,7 +37,7 @@ using namespace std;
 
 int main()
 {
-	/*try {*/
+	try {
 		Model model("arm26.osim");
 		std::cout << "model arm 26 loaded" << std::endl;
 		State state = model.initSystem();
@@ -63,11 +63,11 @@ int main()
 		std::cout << "Inertia of the 1st body" <<  I_arm1 << std::endl;
 		Inertia I_arm2 = model.getBodySet().get(1).getInertia();
 		std::cout << "Inertia of the 2nd body" << I_arm2 << std::endl;
-	//}
-	/*catch (const std::exception& ex) {
+	}
+	catch (const std::exception& ex) {
 		std::cout << "error loading arm 26" << std::endl;
 		std::cout << ex.what() << std::endl;
-	}*/
+	}
 
 	try {
 		Model model("gait2354_simbody_noMuscles_nokneeYamag.osim");
@@ -87,15 +87,6 @@ int main()
 		Array<string> statevarnames=model.getStateVariableNames();
 		std::cout << statevarnames[20*2] << std::endl;
 		std::cout << "inertia matrix of gait2354 is: \n" << M << std::endl;
-		Matrix Minv(nmob, nmob);
-		M.setToZero();
-		try {
-			model.getMatterSubsystem().calcMInv(state, Minv);
-			std::cout << "inverse of inertia matrix of gait2354 is: \n" << Minv << std::endl;
-		}
-		catch (const std::exception& ex) {
-			std::cout << "error inverting mass matrix gait2354, related to Lapack" << std::endl;
-		}
 		std::cout << "model gait2354 loaded" << std::endl;
 	}
 	catch (const std::exception& ex) {
@@ -104,7 +95,7 @@ int main()
 		return 1;
 	}
 
-
+	system("pause");
     cout << "Done" << endl;
     return 0;
 }
