@@ -101,7 +101,7 @@ public:
     //==========================================================================
     OpenSim_DECLARE_PROPERTY(visible, bool, 
         "Flag indicating whether the associated Geometry is visible or hidden.")
-    OpenSim_DECLARE_PROPERTY(opacity, double,
+    OpenSim_DECLARE_PROPERTY(opacity, osim_double_adouble,
         "The opacity used to display the geometry between 0:transparent, 1:opaque.");
     OpenSim_DECLARE_PROPERTY(color, SimTK::Vec3,
         "The color, (red, green, blue), [0, 1], used to display the geometry. ");

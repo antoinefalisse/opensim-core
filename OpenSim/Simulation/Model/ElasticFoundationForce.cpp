@@ -53,7 +53,7 @@ void ElasticFoundationForce::extendAddToSystem(SimTK::MultibodySystem& system) c
 
     const ContactParametersSet& contactParametersSet = 
         get_contact_parameters();
-    const double& transitionVelocity = get_transition_velocity();
+    const osim_double_adouble& transitionVelocity = get_transition_velocity();
 
     SimTK::GeneralContactSubsystem& contacts = system.updContactSubsystem();
     SimTK::ContactSetIndex set = contacts.createContactSet();
@@ -114,12 +114,12 @@ void ElasticFoundationForce::addContactParameters(ElasticFoundationForce::Contac
     updContactParametersSet().adoptAndAppend(params);
 }
 
-double ElasticFoundationForce::getTransitionVelocity() const
+osim_double_adouble ElasticFoundationForce::getTransitionVelocity() const
 {
     return get_transition_velocity();
 }
 
-void ElasticFoundationForce::setTransitionVelocity(double velocity)
+void ElasticFoundationForce::setTransitionVelocity(osim_double_adouble velocity)
 {
     set_transition_velocity(velocity);
 }
@@ -127,61 +127,61 @@ void ElasticFoundationForce::setTransitionVelocity(double velocity)
  /* The following set of functions are introduced for convenience to get/set values in ElasticFoundationForce::ContactParameters
  * and for access in Matlab without exposing ElasticFoundationForce::ContactParameters. pending refactoring contact forces
  */
-double ElasticFoundationForce::getStiffness()  { 
+osim_double_adouble ElasticFoundationForce::getStiffness()  {
     if (get_contact_parameters().getSize()==0)
         updContactParametersSet().adoptAndAppend(
                 new ElasticFoundationForce::ContactParameters());
     return get_contact_parameters().get(0).getStiffness(); 
 };
-void ElasticFoundationForce::setStiffness(double stiffness) {
+void ElasticFoundationForce::setStiffness(osim_double_adouble stiffness) {
     if (get_contact_parameters().getSize()==0)
         updContactParametersSet().adoptAndAppend(
                 new ElasticFoundationForce::ContactParameters());
     upd_contact_parameters()[0].setStiffness(stiffness); 
 };
-double ElasticFoundationForce::getDissipation()   { 
+osim_double_adouble ElasticFoundationForce::getDissipation()   {
     if (get_contact_parameters().getSize()==0)
         updContactParametersSet().adoptAndAppend(
                 new ElasticFoundationForce::ContactParameters());
     return get_contact_parameters().get(0).getDissipation(); 
 };
-void ElasticFoundationForce::setDissipation(double dissipation) {
+void ElasticFoundationForce::setDissipation(osim_double_adouble dissipation) {
     if (get_contact_parameters().getSize()==0)
         updContactParametersSet().adoptAndAppend(
                 new ElasticFoundationForce::ContactParameters());
     upd_contact_parameters()[0].setDissipation(dissipation); 
 };
-double ElasticFoundationForce::getStaticFriction()  { 
+osim_double_adouble ElasticFoundationForce::getStaticFriction()  {
     if (get_contact_parameters().getSize()==0)
         updContactParametersSet().adoptAndAppend(
                 new ElasticFoundationForce::ContactParameters());
     return get_contact_parameters().get(0).getStaticFriction(); 
 };
-void ElasticFoundationForce::setStaticFriction(double friction) {
+void ElasticFoundationForce::setStaticFriction(osim_double_adouble friction) {
     if (get_contact_parameters().getSize()==0)
         updContactParametersSet().adoptAndAppend(
                 new ElasticFoundationForce::ContactParameters());
     upd_contact_parameters()[0].setStaticFriction(friction); 
 };
-double ElasticFoundationForce::getDynamicFriction()   { 
+osim_double_adouble ElasticFoundationForce::getDynamicFriction()   {
     if (get_contact_parameters().getSize()==0)
         updContactParametersSet().adoptAndAppend(
                 new ElasticFoundationForce::ContactParameters());
     return get_contact_parameters().get(0).getDynamicFriction(); 
 };
-void ElasticFoundationForce::setDynamicFriction(double friction) {
+void ElasticFoundationForce::setDynamicFriction(osim_double_adouble friction) {
     if (get_contact_parameters().getSize()==0)
         updContactParametersSet().adoptAndAppend(
                 new ElasticFoundationForce::ContactParameters());
     upd_contact_parameters()[0].setDynamicFriction(friction); 
 };
-double ElasticFoundationForce::getViscousFriction()   { 
+osim_double_adouble ElasticFoundationForce::getViscousFriction()   {
     if (get_contact_parameters().getSize()==0)
         updContactParametersSet().adoptAndAppend(
                 new ElasticFoundationForce::ContactParameters());
     return get_contact_parameters().get(0).getViscousFriction(); 
 };
-void ElasticFoundationForce::setViscousFriction(double friction) {
+void ElasticFoundationForce::setViscousFriction(osim_double_adouble friction) {
     if (get_contact_parameters().getSize()==0)
         updContactParametersSet().adoptAndAppend(
                 new ElasticFoundationForce::ContactParameters());
@@ -208,8 +208,8 @@ ElasticFoundationForce::ContactParameters::ContactParameters()
 
 // Constructor specifying material properties.
 ElasticFoundationForce::ContactParameters::ContactParameters
-   (double stiffness, double dissipation, double staticFriction, 
-    double dynamicFriction, double viscousFriction)
+   (osim_double_adouble stiffness, osim_double_adouble dissipation, osim_double_adouble staticFriction,
+	   osim_double_adouble dynamicFriction, osim_double_adouble viscousFriction)
 {
     constructProperties();
     set_stiffness(stiffness);
@@ -245,52 +245,52 @@ void ElasticFoundationForce::ContactParameters::addGeometry(const std::string& n
     updGeometry().appendValue(name);
 }
 
-double ElasticFoundationForce::ContactParameters::getStiffness() const
+osim_double_adouble ElasticFoundationForce::ContactParameters::getStiffness() const
 {
     return get_stiffness();
 }
 
-void ElasticFoundationForce::ContactParameters::setStiffness(double stiffness)
+void ElasticFoundationForce::ContactParameters::setStiffness(osim_double_adouble stiffness)
 {
     set_stiffness(stiffness);
 }
 
-double ElasticFoundationForce::ContactParameters::getDissipation() const
+osim_double_adouble ElasticFoundationForce::ContactParameters::getDissipation() const
 {
     return get_dissipation();
 }
 
-void ElasticFoundationForce::ContactParameters::setDissipation(double dissipation)
+void ElasticFoundationForce::ContactParameters::setDissipation(osim_double_adouble dissipation)
 {
     set_dissipation(dissipation);
 }
 
-double ElasticFoundationForce::ContactParameters::getStaticFriction() const
+osim_double_adouble ElasticFoundationForce::ContactParameters::getStaticFriction() const
 {
     return get_static_friction();
 }
 
-void ElasticFoundationForce::ContactParameters::setStaticFriction(double friction)
+void ElasticFoundationForce::ContactParameters::setStaticFriction(osim_double_adouble friction)
 {
     set_static_friction(friction);
 }
 
-double ElasticFoundationForce::ContactParameters::getDynamicFriction() const
+osim_double_adouble ElasticFoundationForce::ContactParameters::getDynamicFriction() const
 {
     return get_dynamic_friction();
 }
 
-void ElasticFoundationForce::ContactParameters::setDynamicFriction(double friction)
+void ElasticFoundationForce::ContactParameters::setDynamicFriction(osim_double_adouble friction)
 {
     set_dynamic_friction(friction);
 }
 
-double ElasticFoundationForce::ContactParameters::getViscousFriction() const
+osim_double_adouble ElasticFoundationForce::ContactParameters::getViscousFriction() const
 {
     return get_viscous_friction();
 }
 
-void ElasticFoundationForce::ContactParameters::setViscousFriction(double friction)
+void ElasticFoundationForce::ContactParameters::setViscousFriction(osim_double_adouble friction)
 {
     set_viscous_friction(friction);
 }

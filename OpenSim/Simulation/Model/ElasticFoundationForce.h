@@ -48,7 +48,7 @@ public:
     OpenSim_DECLARE_PROPERTY(contact_parameters, 
         ElasticFoundationForce::ContactParametersSet,
         "Material properties.");
-    OpenSim_DECLARE_PROPERTY(transition_velocity, double,
+    OpenSim_DECLARE_PROPERTY(transition_velocity, osim_double_adouble,
         "Slip velocity (creep) at which peak static friction occurs.");
 
 
@@ -70,25 +70,25 @@ public:
     /**
      * Get the transition velocity for switching between static and dynamic friction.
      */
-    double getTransitionVelocity() const;
+	osim_double_adouble getTransitionVelocity() const;
     /**
      * %Set the transition velocity for switching between static and dynamic friction.
      */
-    void setTransitionVelocity(double velocity);
+    void setTransitionVelocity(osim_double_adouble velocity);
 
     /**
      * Access to ContactParameters. Methods assume size 1 of ContactParametersSet and add one ContactParameter if needed
      */
-    double getStiffness() ;
-    void setStiffness(double stiffness) ;
-    double getDissipation() ;
-    void setDissipation(double dissipation);
-    double getStaticFriction() ;
-    void setStaticFriction(double friction);
-    double getDynamicFriction() ;
-    void setDynamicFriction(double friction);
-    double getViscousFriction() ;
-    void setViscousFriction(double friction);
+	osim_double_adouble getStiffness() ;
+    void setStiffness(osim_double_adouble stiffness) ;
+	osim_double_adouble getDissipation() ;
+    void setDissipation(osim_double_adouble dissipation);
+	osim_double_adouble getStaticFriction() ;
+    void setStaticFriction(osim_double_adouble friction);
+	osim_double_adouble getDynamicFriction() ;
+    void setDynamicFriction(osim_double_adouble friction);
+	osim_double_adouble getViscousFriction() ;
+    void setViscousFriction(osim_double_adouble friction);
     void addGeometry(const std::string& name);
 
     //-----------------------------------------------------------------------------
@@ -127,38 +127,39 @@ public:
     OpenSim_DECLARE_LIST_PROPERTY(geometry, std::string,
         "Names of geometry objects affected by these parameters.");
 
-    OpenSim_DECLARE_PROPERTY(stiffness, double,
+    OpenSim_DECLARE_PROPERTY(stiffness, osim_double_adouble,
         "");
-    OpenSim_DECLARE_PROPERTY(dissipation, double,
+    OpenSim_DECLARE_PROPERTY(dissipation, osim_double_adouble,
         "");
-    OpenSim_DECLARE_PROPERTY(static_friction, double,
+    OpenSim_DECLARE_PROPERTY(static_friction, osim_double_adouble,
         "");
-    OpenSim_DECLARE_PROPERTY(dynamic_friction, double,
+    OpenSim_DECLARE_PROPERTY(dynamic_friction, osim_double_adouble,
         "");
-    OpenSim_DECLARE_PROPERTY(viscous_friction, double,
+    OpenSim_DECLARE_PROPERTY(viscous_friction, osim_double_adouble,
         "");
 
 //==============================================================================
 // PUBLIC METHODS
 //==============================================================================
     ContactParameters();
-    ContactParameters(double stiffness, double dissipation, 
-                      double staticFriction, double dynamicFriction, 
-                      double viscousFriction);
+    ContactParameters(osim_double_adouble stiffness,
+		osim_double_adouble dissipation,
+		osim_double_adouble staticFriction, osim_double_adouble dynamicFriction,
+		osim_double_adouble viscousFriction);
 
     const Property<std::string>& getGeometry() const;
     Property<std::string>& updGeometry();
     void addGeometry(const std::string& name);
-    double getStiffness() const;
-    void setStiffness(double stiffness);
-    double getDissipation() const;
-    void setDissipation(double dissipation);
-    double getStaticFriction() const;
-    void setStaticFriction(double friction);
-    double getDynamicFriction() const;
-    void setDynamicFriction(double friction);
-    double getViscousFriction() const;
-    void setViscousFriction(double friction);
+	osim_double_adouble getStiffness() const;
+    void setStiffness(osim_double_adouble stiffness);
+	osim_double_adouble getDissipation() const;
+    void setDissipation(osim_double_adouble dissipation);
+	osim_double_adouble getStaticFriction() const;
+    void setStaticFriction(osim_double_adouble friction);
+	osim_double_adouble getDynamicFriction() const;
+    void setDynamicFriction(osim_double_adouble friction);
+	osim_double_adouble getViscousFriction() const;
+    void setViscousFriction(osim_double_adouble friction);
 
 private:
     void constructProperties();
