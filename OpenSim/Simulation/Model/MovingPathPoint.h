@@ -81,7 +81,7 @@ public:
     MovingPathPoint();
     virtual ~MovingPathPoint();
 
-    //void updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber) override;
+    void updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber) override;
 
     bool hasXCoordinate() const;
     bool hasYCoordinate() const;

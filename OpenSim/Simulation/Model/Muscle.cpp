@@ -52,92 +52,92 @@ Muscle::Muscle()
 //_____________________________________________________________________________
 // Override default implementation by object to intercept and fix the XML node
 // underneath the model to match current version.
-//void Muscle::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
-//{
-//    if ( versionNumber < XMLDocument::getLatestVersion()) {
-//        if (Object::getDebugLevel()>=1)
-//            cout << "Updating Muscle object to latest format..." << endl;
-//        
-//        if (versionNumber <= 20301){
-//            SimTK::Xml::element_iterator pathIter = 
-//                                            aNode.element_begin("GeometryPath");
-//            if (pathIter != aNode.element_end()) {
-//                XMLDocument::renameChildNode(*pathIter, "MusclePointSet", "PathPointSet");
-//                XMLDocument::renameChildNode(*pathIter, "MuscleWrapSet", "PathWrapSet");
-//            } else { // There was no GeometryPath, just MusclePointSet
-//                SimTK::Xml::element_iterator musclePointSetIter = aNode.element_begin("MusclePointSet");
-//                bool pathPointSetFound=false;
-//                if (musclePointSetIter != aNode.element_end()){
-//                    XMLDocument::renameChildNode(aNode, "MusclePointSet", "PathPointSet");
-//                    pathPointSetFound=true;
-//                }
-//                bool pathWrapSetFound=false;
-//                SimTK::Xml::element_iterator muscleWrapSetIter = aNode.element_begin("MuscleWrapSet");
-//                if (muscleWrapSetIter != aNode.element_end()){
-//                    XMLDocument::renameChildNode(aNode, "MuscleWrapSet", "PathWrapSet");
-//                    pathWrapSetFound=true;
-//                }
-//                // Now create a "GeometryPath" node and move MusclePointSet & MuscleWrapSet under it
-//                SimTK::Xml::Element myPathElement("GeometryPath");
-//                SimTK::Xml::Node moveNode;
-//                if (pathPointSetFound) {
-//                    SimTK::Xml::element_iterator  pathPointSetIter = aNode.element_begin("PathPointSet");
-//                    moveNode = aNode.removeNode(pathPointSetIter);
-//                    myPathElement.insertNodeAfter(myPathElement.element_end(),moveNode);
-//                }
-//                if (pathWrapSetFound) {
-//                    SimTK::Xml::element_iterator  pathWrapSetIter = aNode.element_begin("PathWrapSet");
-//                    moveNode = aNode.removeNode(pathWrapSetIter);
-//                    myPathElement.insertNodeAfter(myPathElement.element_end(),moveNode);
-//                }
-//                aNode.insertNodeAfter(aNode.element_end(), myPathElement);
-//            }
-//            XMLDocument::renameChildNode(aNode, "pennation_angle", "pennation_angle_at_optimal");
-//        }
-//        if (versionNumber < 30513) {
-//            SimTK::Xml::element_iterator minControlElt =
-//                aNode.element_begin("min_control");
-//            osim_double_adouble minControl = 0;
-//            if (minControlElt != aNode.element_end()) {
-//                minControlElt->getValueAs<osim_double_adouble>(minControl);
-//                // If the min_control value is 0, then remove the min_control
-//                // property in XML since it is likely a result of a mistake. In
-//                // previous versions, the min_control property was no updated
-//                // to reflect the Muscle's min_activation. Removing it allows
-//                // the Muscle to use the appropriate default specified by the
-//                // derived concrete Muscle.
-//                if (SimTK::isNumericallyEqual(minControl, 0.0)) {
-//                    aNode.removeNode(minControlElt);
-//                }
-//            }
-//            SimTK::Xml::element_iterator maxControlElt =
-//                aNode.element_begin("max_control");
-//            osim_double_adouble maxControl = 0;
-//            if (maxControlElt != aNode.element_end()) {
-//                maxControlElt->getValueAs<osim_double_adouble>(maxControl);
-//                // allow Muscle to use its default
-//                if (SimTK::isNumericallyEqual(maxControl, 1.0)) {
-//                    aNode.removeNode(maxControlElt);
-//                }
-//            }
-//        }
-//        if (versionNumber < 30516) {
-//            // Find GeometryPath node and insert <default_color>
-//            SimTK::Xml::element_iterator  geomPathIter = aNode.element_begin("GeometryPath");
-//            if (geomPathIter != aNode.element_end()) {
-//                SimTK::Xml::element_iterator  defaultColorIter = geomPathIter->element_begin("default_color");
-//                if (defaultColorIter == geomPathIter->element_end()) {
-//                    SimTK::Xml::Element myDefaultColorEement("default_color");
-//                    myDefaultColorEement.setValue(".8 .1 .1"); // DefaultMuscleColor
-//                    geomPathIter->appendNode(myDefaultColorEement);
-//                }
-//            }
-//        }
-//
-//    }
-//    // Call base class now assuming aNode has been corrected for current version
-//    //Super::updateFromXMLNode(aNode, versionNumber);
-//}
+void Muscle::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
+{
+    if ( versionNumber < XMLDocument::getLatestVersion()) {
+        if (Object::getDebugLevel()>=1)
+            cout << "Updating Muscle object to latest format..." << endl;
+        
+        if (versionNumber <= 20301){
+            SimTK::Xml::element_iterator pathIter = 
+                                            aNode.element_begin("GeometryPath");
+            if (pathIter != aNode.element_end()) {
+                XMLDocument::renameChildNode(*pathIter, "MusclePointSet", "PathPointSet");
+                XMLDocument::renameChildNode(*pathIter, "MuscleWrapSet", "PathWrapSet");
+            } else { // There was no GeometryPath, just MusclePointSet
+                SimTK::Xml::element_iterator musclePointSetIter = aNode.element_begin("MusclePointSet");
+                bool pathPointSetFound=false;
+                if (musclePointSetIter != aNode.element_end()){
+                    XMLDocument::renameChildNode(aNode, "MusclePointSet", "PathPointSet");
+                    pathPointSetFound=true;
+                }
+                bool pathWrapSetFound=false;
+                SimTK::Xml::element_iterator muscleWrapSetIter = aNode.element_begin("MuscleWrapSet");
+                if (muscleWrapSetIter != aNode.element_end()){
+                    XMLDocument::renameChildNode(aNode, "MuscleWrapSet", "PathWrapSet");
+                    pathWrapSetFound=true;
+                }
+                // Now create a "GeometryPath" node and move MusclePointSet & MuscleWrapSet under it
+                SimTK::Xml::Element myPathElement("GeometryPath");
+                SimTK::Xml::Node moveNode;
+                if (pathPointSetFound) {
+                    SimTK::Xml::element_iterator  pathPointSetIter = aNode.element_begin("PathPointSet");
+                    moveNode = aNode.removeNode(pathPointSetIter);
+                    myPathElement.insertNodeAfter(myPathElement.element_end(),moveNode);
+                }
+                if (pathWrapSetFound) {
+                    SimTK::Xml::element_iterator  pathWrapSetIter = aNode.element_begin("PathWrapSet");
+                    moveNode = aNode.removeNode(pathWrapSetIter);
+                    myPathElement.insertNodeAfter(myPathElement.element_end(),moveNode);
+                }
+                aNode.insertNodeAfter(aNode.element_end(), myPathElement);
+            }
+            XMLDocument::renameChildNode(aNode, "pennation_angle", "pennation_angle_at_optimal");
+        }
+        if (versionNumber < 30513) {
+            SimTK::Xml::element_iterator minControlElt =
+                aNode.element_begin("min_control");
+            osim_double_adouble minControl = 0;
+            if (minControlElt != aNode.element_end()) {
+                minControlElt->getValueAs<osim_double_adouble>(minControl);
+                // If the min_control value is 0, then remove the min_control
+                // property in XML since it is likely a result of a mistake. In
+                // previous versions, the min_control property was no updated
+                // to reflect the Muscle's min_activation. Removing it allows
+                // the Muscle to use the appropriate default specified by the
+                // derived concrete Muscle.
+                if (SimTK::isNumericallyEqual(minControl, 0.0)) {
+                    aNode.removeNode(minControlElt);
+                }
+            }
+            SimTK::Xml::element_iterator maxControlElt =
+                aNode.element_begin("max_control");
+            osim_double_adouble maxControl = 0;
+            if (maxControlElt != aNode.element_end()) {
+                maxControlElt->getValueAs<osim_double_adouble>(maxControl);
+                // allow Muscle to use its default
+                if (SimTK::isNumericallyEqual(maxControl, 1.0)) {
+                    aNode.removeNode(maxControlElt);
+                }
+            }
+        }
+        if (versionNumber < 30516) {
+            // Find GeometryPath node and insert <default_color>
+            SimTK::Xml::element_iterator  geomPathIter = aNode.element_begin("GeometryPath");
+            if (geomPathIter != aNode.element_end()) {
+                SimTK::Xml::element_iterator  defaultColorIter = geomPathIter->element_begin("default_color");
+                if (defaultColorIter == geomPathIter->element_end()) {
+                    SimTK::Xml::Element myDefaultColorEement("default_color");
+                    myDefaultColorEement.setValue(".8 .1 .1"); // DefaultMuscleColor
+                    geomPathIter->appendNode(myDefaultColorEement);
+                }
+            }
+        }
+
+    }
+    // Call base class now assuming aNode has been corrected for current version
+    Super::updateFromXMLNode(aNode, versionNumber);
+}
 
 
 //_____________________________________________________________________________

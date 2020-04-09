@@ -59,11 +59,11 @@ TransformAxis::TransformAxis(const Array<string>& coordNames,
     setAxis(axis);
 }
 // Constructor from XML node.
-//TransformAxis::TransformAxis(SimTK::Xml::Element& aNode) {
-//    setNull();
-//    constructProperties();
-//    updateFromXMLNode(aNode);
-//}
+TransformAxis::TransformAxis(SimTK::Xml::Element& aNode) {
+    setNull();
+    constructProperties();
+    updateFromXMLNode(aNode);
+}
 
 //_____________________________________________________________________________
 /**
@@ -180,14 +180,14 @@ void TransformAxis::setFunction(const OpenSim::Function& func)
 }
 
 
-//void TransformAxis::updateFromXMLNode
-//   (SimTK::Xml::Element& node, int versionNumber)
-//{
-//    // Version before refactoring spatialTransform.
-//    // TODO: this is handled in CustomJoint's updateFromXMLNode() method
-//    // but should be dealt with here. Can't do it both places, though.
-//
-//    //XMLDocument::renameChildNode(node, "coordinate", "coordinates");
-//
-//    Super::updateFromXMLNode(node, versionNumber);
-//}
+void TransformAxis::updateFromXMLNode
+   (SimTK::Xml::Element& node, int versionNumber)
+{
+    // Version before refactoring spatialTransform.
+    // TODO: this is handled in CustomJoint's updateFromXMLNode() method
+    // but should be dealt with here. Can't do it both places, though.
+
+    //XMLDocument::renameChildNode(node, "coordinate", "coordinates");
+
+    Super::updateFromXMLNode(node, versionNumber);
+}

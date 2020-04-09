@@ -25,6 +25,7 @@
 // INCLUDES
 //=============================================================================
 #include "Body.h"
+#include <OpenSim/Common/XMLDocument.h>
 
 //=============================================================================
 // STATICS
@@ -373,31 +374,31 @@ SimTK::MassProperties Body::getMassProperties() const
 // I/O
 //=============================================================================
 
-//void Body::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
-//{
-//    if (versionNumber < XMLDocument::getLatestVersion()) {
-//        if (versionNumber < 30500) {
-//            SimTK::Vec6 newInertia(1.0, 1.0, 1.0, 0., 0., 0.);
-//            std::string inertiaComponents[] = { "inertia_xx", "inertia_yy", "inertia_zz", "inertia_xy", "inertia_xz", "inertia_yz" };
-//            for (int i = 0; i < 6; ++i) {
-//                SimTK::Xml::element_iterator iIter = aNode.element_begin(inertiaComponents[i]);
-//                if (iIter != aNode.element_end()) {
-//                    newInertia[i] = iIter->getValueAs<osim_double_adouble>();
-//                    aNode.removeNode(iIter);
-//                }
-//            }
-//            std::ostringstream strs;
-//            for (int i = 0; i < 6; ++i) {
-//                strs << newInertia[i];
-//                if (i < 5) strs << " ";
-//            }
-//            std::string strInertia = strs.str();
-//            SimTK::Xml::Element inertiaNode("inertia", strInertia);
-//            aNode.insertNodeAfter(aNode.element_end(), inertiaNode);
-//        }
-//    }
-//    Super::updateFromXMLNode(aNode, versionNumber);
-//}
+void Body::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
+{
+    if (versionNumber < XMLDocument::getLatestVersion()) {
+        if (versionNumber < 30500) {
+            SimTK::Vec6 newInertia(1.0, 1.0, 1.0, 0., 0., 0.);
+            std::string inertiaComponents[] = { "inertia_xx", "inertia_yy", "inertia_zz", "inertia_xy", "inertia_xz", "inertia_yz" };
+            for (int i = 0; i < 6; ++i) {
+                SimTK::Xml::element_iterator iIter = aNode.element_begin(inertiaComponents[i]);
+                if (iIter != aNode.element_end()) {
+                    newInertia[i] = iIter->getValueAs<osim_double_adouble>();
+                    aNode.removeNode(iIter);
+                }
+            }
+            std::ostringstream strs;
+            for (int i = 0; i < 6; ++i) {
+                strs << newInertia[i];
+                if (i < 5) strs << " ";
+            }
+            std::string strInertia = strs.str();
+            SimTK::Xml::Element inertiaNode("inertia", strInertia);
+            aNode.insertNodeAfter(aNode.element_end(), inertiaNode);
+        }
+    }
+    Super::updateFromXMLNode(aNode, versionNumber);
+}
 
 Body* Body::addSlave()
 {

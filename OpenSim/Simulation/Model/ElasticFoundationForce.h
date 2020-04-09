@@ -101,7 +101,7 @@ public:
     /**
     *  Provide the value(s) to be reported that correspond to the labels
     */
-    OpenSim::Array<double> getRecordValues(const SimTK::State& state) const override ;
+    OpenSim::Array<osim_double_adouble> getRecordValues(const SimTK::State& state) const override ;
 private:
     // INITIALIZATION
     void constructProperties();

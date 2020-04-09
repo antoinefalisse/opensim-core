@@ -30,7 +30,7 @@
 #include <OpenSim/Common/MultiplierFunction.h>
 #include <OpenSim/Simulation/Model/PhysicalFrame.h>
 #include <OpenSim/Simulation/SimbodyEngine/Coordinate.h>
-
+#include <OpenSim/Common/XMLDocument.h>
 
 //=============================================================================
 // STATICS
@@ -145,42 +145,42 @@ void MovingPathPoint::extendConnectToModel(Model& model)
  * Override default implementation by Object to intercept and fix the XML node
  * underneath the MovingPathPoint to match the current version.
  */
-//void MovingPathPoint::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
-//{
-//    int documentVersion = versionNumber;
-//    if (documentVersion < 30000) {
-//        if (Object::getDebugLevel()>=1)
-//            cout << "Updating MovingPathPoint object to latest format..." << endl;
-//        XMLDocument::renameChildNode(aNode, "XAttachment", "x_location");
-//        XMLDocument::renameChildNode(aNode,"YAttachment", "y_location");
-//        XMLDocument::renameChildNode(aNode,"ZAttachment", "z_location");
-//    }
-//    if (documentVersion < 30505) {
-//        // replace old properties with latest use of Connectors
-//        SimTK::Xml::element_iterator xCoord = aNode.element_begin("x_coordinate");
-//        SimTK::Xml::element_iterator yCoord = aNode.element_begin("y_coordinate");
-//        SimTK::Xml::element_iterator zCoord = aNode.element_begin("z_coordinate");
-//
-//        std::string xCoord_name(""), yCoord_name(""), zCoord_name("");
-//        // If default constructed then elements not serialized since they are default
-//        // values. Check that we have associated elements, then extract their values.
-//        if (xCoord != aNode.element_end())
-//            xCoord->getValueAs<std::string>(xCoord_name);
-//        if (yCoord != aNode.element_end())
-//            yCoord->getValueAs<std::string>(yCoord_name);
-//        if (zCoord != aNode.element_end())
-//            zCoord->getValueAs<std::string>(zCoord_name);
-//        XMLDocument::addConnector(aNode, "Connector_Coordinate_", 
-//            "x_coordinate", xCoord_name);
-//        XMLDocument::addConnector(aNode, "Connector_Coordinate_", 
-//            "y_coordinate", yCoord_name);
-//        XMLDocument::addConnector(aNode, "Connector_Coordinate_", 
-//            "z_coordinate", zCoord_name);
-//    }
-//
-//    // Call base class now assuming _node has been corrected for current version
-//    Super::updateFromXMLNode(aNode, versionNumber);
-//}
+void MovingPathPoint::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
+{
+    int documentVersion = versionNumber;
+    if (documentVersion < 30000) {
+        if (Object::getDebugLevel()>=1)
+            cout << "Updating MovingPathPoint object to latest format..." << endl;
+        XMLDocument::renameChildNode(aNode, "XAttachment", "x_location");
+        XMLDocument::renameChildNode(aNode,"YAttachment", "y_location");
+        XMLDocument::renameChildNode(aNode,"ZAttachment", "z_location");
+    }
+    if (documentVersion < 30505) {
+        // replace old properties with latest use of Connectors
+        SimTK::Xml::element_iterator xCoord = aNode.element_begin("x_coordinate");
+        SimTK::Xml::element_iterator yCoord = aNode.element_begin("y_coordinate");
+        SimTK::Xml::element_iterator zCoord = aNode.element_begin("z_coordinate");
+
+        std::string xCoord_name(""), yCoord_name(""), zCoord_name("");
+        // If default constructed then elements not serialized since they are default
+        // values. Check that we have associated elements, then extract their values.
+        if (xCoord != aNode.element_end())
+            xCoord->getValueAs<std::string>(xCoord_name);
+        if (yCoord != aNode.element_end())
+            yCoord->getValueAs<std::string>(yCoord_name);
+        if (zCoord != aNode.element_end())
+            zCoord->getValueAs<std::string>(zCoord_name);
+        XMLDocument::addConnector(aNode, "Connector_Coordinate_", 
+            "x_coordinate", xCoord_name);
+        XMLDocument::addConnector(aNode, "Connector_Coordinate_", 
+            "y_coordinate", yCoord_name);
+        XMLDocument::addConnector(aNode, "Connector_Coordinate_", 
+            "z_coordinate", zCoord_name);
+    }
+
+    // Call base class now assuming _node has been corrected for current version
+    Super::updateFromXMLNode(aNode, versionNumber);
+}
 
 SimTK::Vec3 MovingPathPoint::getLocation(const SimTK::State& s) const
 {

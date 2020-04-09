@@ -342,9 +342,9 @@ OpenSim::Array<std::string> ElasticFoundationForce::getRecordLabels() const
 /*
  * Provide the value(s) to be reported that correspond to the labels
  */
-OpenSim::Array<double> ElasticFoundationForce::getRecordValues(const SimTK::State& state) const 
+OpenSim::Array<osim_double_adouble> ElasticFoundationForce::getRecordValues(const SimTK::State& state) const
 {
-    OpenSim::Array<double> values(1);
+    OpenSim::Array<osim_double_adouble> values(1);
 
     const ContactParametersSet& contactParametersSet = 
         get_contact_parameters();
