@@ -95,7 +95,6 @@ int main()
 		return 1;
 	}
 
-	system("pause");
     cout << "Done" << endl;
     return 0;
 }
