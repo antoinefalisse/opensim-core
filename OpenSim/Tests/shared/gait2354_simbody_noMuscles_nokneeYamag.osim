@@ -639,28 +639,26 @@
 								<!--3 Axes for translations are listed next.-->
 								<TransformAxis name="translation1">
 									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
-									<coordinates>knee_angle_r</coordinates>
+									<coordinates></coordinates>
 									<!--Rotation or translation axis for the transform.-->
 									<axis>1 0 0</axis>
 									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
 									<function>
-										<SimmSpline>
-											<x> -2.0944 -1.74533 -1.39626 -1.0472 -0.698132 -0.349066 -0.174533 0.197344 0.337395 0.490178 1.52146 2.0944</x>
-											<y> -0.0032 0.00179 0.00411 0.0041 0.00212 -0.001 -0.0031 -0.005227 -0.005435 -0.005574 -0.005435 -0.00525</y>
-										</SimmSpline>
+										<Constant>
+											<value>0</value>
+										</Constant>
 									</function>
 								</TransformAxis>
 								<TransformAxis name="translation2">
 									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
-									<coordinates>knee_angle_r</coordinates>
+									<coordinates></coordinates>
 									<!--Rotation or translation axis for the transform.-->
 									<axis>0 1 0</axis>
 									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
 									<function>
-										<SimmSpline>
-											<x> -2.0944 -1.22173 -0.523599 -0.349066 -0.174533 0.159149 2.0944</x>
-											<y> -0.4226 -0.4082 -0.399 -0.3976 -0.3966 -0.395264 -0.396</y>
-										</SimmSpline>
+										<Constant>
+											<value>-0.43</value>
+										</Constant>
 									</function>
 								</TransformAxis>
 								<TransformAxis name="translation3">
@@ -1513,28 +1511,26 @@
 								<!--3 Axes for translations are listed next.-->
 								<TransformAxis name="translation1">
 									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
-									<coordinates>knee_angle_l</coordinates>
+									<coordinates></coordinates>
 									<!--Rotation or translation axis for the transform.-->
 									<axis>1 0 0</axis>
 									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
 									<function>
-										<SimmSpline>
-											<x> -2.0944 -1.74533 -1.39626 -1.0472 -0.698132 -0.349066 -0.174533 0.197344 0.337395 0.490178 1.52146 2.0944</x>
-											<y> -0.0032 0.00179 0.00411 0.0041 0.00212 -0.001 -0.0031 -0.005227 -0.005435 -0.005574 -0.005435 -0.00525</y>
-										</SimmSpline>
+										<Constant>
+											<value>0</value>
+										</Constant>
 									</function>
 								</TransformAxis>
 								<TransformAxis name="translation2">
 									<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
-									<coordinates>knee_angle_l</coordinates>
+									<coordinates></coordinates>
 									<!--Rotation or translation axis for the transform.-->
 									<axis>0 1 0</axis>
 									<!--Transform function of the generalized coordinates used to        represent the amount of transformation along a specified axis.-->
 									<function>
-										<SimmSpline>
-											<x> -2.0944 -1.22173 -0.523599 -0.349066 -0.174533 0.159149 2.0944</x>
-											<y> -0.4226 -0.4082 -0.399 -0.3976 -0.3966 -0.395264 -0.396</y>
-										</SimmSpline>
+										<Constant>
+											<value>-0.43</value>
+										</Constant>
 									</function>
 								</TransformAxis>
 								<TransformAxis name="translation3">
