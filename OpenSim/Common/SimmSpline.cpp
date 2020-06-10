@@ -309,11 +309,11 @@ const osim_double_adouble* SimmSpline::getYValues() const
 /**
  * Update this object based on its XML node.
  */
-//void SimmSpline::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
-//{
-//    Function::updateFromXMLNode(aNode, versionNumber);
-//    calcCoefficients();
-//}   
+void SimmSpline::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
+{
+    Function::updateFromXMLNode(aNode, versionNumber);
+    calcCoefficients();
+}   
 
 //=============================================================================
 // EVALUATION

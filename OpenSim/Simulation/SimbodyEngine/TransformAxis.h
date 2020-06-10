@@ -162,8 +162,8 @@ private:
     // deprecated property name "coordinate" (if it appears in \a node) with 
     // the current property name "coordinates". Then we'll invoke the base
     // class implementation.
-    //void updateFromXMLNode(SimTK::Xml::Element& node, 
-    //                       int                  versionNumber=-1) override;
+    void updateFromXMLNode(SimTK::Xml::Element& node, 
+                           int                  versionNumber=-1) override;
 
     void setNull();
     void constructProperties();

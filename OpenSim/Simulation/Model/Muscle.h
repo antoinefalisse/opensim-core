@@ -318,7 +318,7 @@ public:
         computeControls(), then setExcitation will override the controller values. If called 
         before computeControls, then controller value(s) are added to the excitation set here. */
     void setExcitation(SimTK::State& s, osim_double_adouble excitation) const;
-    //osim_double_adouble getExcitation(const SimTK::State& s) const;
+    osim_double_adouble getExcitation(const SimTK::State& s) const;
 
 
     /** DEPRECATED: only for backward compatibility */
@@ -455,7 +455,7 @@ private:
     // Implement Object interface.
     //--------------------------------------------------------------------------
     /** Override of the default implementation to account for versioning. */
-    //void updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber=-1) override;
+    void updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber=-1) override;
 
 
 //=============================================================================

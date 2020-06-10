@@ -69,15 +69,15 @@ _apply(_propApply.getValueBool())
 /**
  * Constructor of a scaleSet from a file.
  */
-//Scale::Scale(const string& scaleFileName):
-//Object(scaleFileName, false),
-//_scaleFactors(_propScaleFactors.getValueDblVec()),
-//_segmentName(_propSegmentName.getValueStr()),
-//_apply(_propApply.getValueBool())
-//{
-//    setNull();
-//    updateFromXMLDocument();
-//}
+Scale::Scale(const string& scaleFileName):
+Object(scaleFileName, false),
+_scaleFactors(_propScaleFactors.getValueDblVec()),
+_segmentName(_propSegmentName.getValueStr()),
+_apply(_propApply.getValueBool())
+{
+    setNull();
+    updateFromXMLDocument();
+}
 
 //=============================================================================
 // OPERATORS

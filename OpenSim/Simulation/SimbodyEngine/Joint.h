@@ -335,7 +335,7 @@ protected:
     void setCoordinateModel(Coordinate *aCoord, Model *aModel) const {aCoord->_model = aModel;}
 
     /** Updating XML formating to latest revision */
-    /*void updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber) override;*/
+    void updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber) override;
 
     /** Calculate the equivalent spatial force, FB_G, acting on a mobilized body
         specified by index acting at its mobilizer frame B, expressed in ground. */

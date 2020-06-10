@@ -1239,38 +1239,38 @@ void GeometryPath::extendFinalizeFromProperties()
 //_____________________________________________________________________________
 // Override default implementation by object to intercept and fix the XML node
 // underneath the model to match current version.
-//void GeometryPath::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
-//{
-//    if (versionNumber < XMLDocument::getLatestVersion()) {
-//        if (versionNumber < 30516) {
-//            // Create Appearance node under GeometryPath
-//            SimTK::Xml::Element appearanceElement("Appearance");
-//            aNode.appendNode(appearanceElement);
-//            SimTK::Xml::element_iterator visObjectIter = aNode.element_begin("VisibleObject");
-//            if (visObjectIter != aNode.element_end()) {
-//                SimTK::Xml::element_iterator oldPrefIter = visObjectIter->element_begin("display_preference");
-//                // old display_preference was used only for hide/show other options unsupported
-//                if (oldPrefIter != visObjectIter->element_end()) {
-//                    int oldPrefAsInt = 4;
-//                    oldPrefIter->getValueAs<int>(oldPrefAsInt);
-//                    if (oldPrefAsInt == 0) { // Hidden => Appearance/Visible
-//                        SimTK::Xml::Element visibleElement("visible");
-//                        visibleElement.setValueAs<bool>(false);
-//                        appearanceElement.insertNodeAfter(appearanceElement.element_end(), visibleElement);
-//                    }
-//                }
-//            }
-//            // If default_color existed, copy it to Appearance/color
-//            SimTK::Xml::element_iterator defaultColorIter = aNode.element_begin("default_color");
-//            if (defaultColorIter != aNode.element_end()) {
-//                // Move default_color to Appearance/color
-//                SimTK::Xml::Element colorElement("color");
-//                const SimTK::String& colorAsString = defaultColorIter->getValue();
-//                colorElement.setValue(colorAsString);
-//                appearanceElement.appendNode(colorElement);
-//            }
-//        }
-//    }
-//    // Call base class now assuming aNode has been corrected for current version
-//    Super::updateFromXMLNode(aNode, versionNumber);
-//}
+void GeometryPath::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
+{
+    if (versionNumber < XMLDocument::getLatestVersion()) {
+        if (versionNumber < 30516) {
+            // Create Appearance node under GeometryPath
+            SimTK::Xml::Element appearanceElement("Appearance");
+            aNode.appendNode(appearanceElement);
+            SimTK::Xml::element_iterator visObjectIter = aNode.element_begin("VisibleObject");
+            if (visObjectIter != aNode.element_end()) {
+                SimTK::Xml::element_iterator oldPrefIter = visObjectIter->element_begin("display_preference");
+                // old display_preference was used only for hide/show other options unsupported
+                if (oldPrefIter != visObjectIter->element_end()) {
+                    int oldPrefAsInt = 4;
+                    oldPrefIter->getValueAs<int>(oldPrefAsInt);
+                    if (oldPrefAsInt == 0) { // Hidden => Appearance/Visible
+                        SimTK::Xml::Element visibleElement("visible");
+                        visibleElement.setValueAs<bool>(false);
+                        appearanceElement.insertNodeAfter(appearanceElement.element_end(), visibleElement);
+                    }
+                }
+            }
+            // If default_color existed, copy it to Appearance/color
+            SimTK::Xml::element_iterator defaultColorIter = aNode.element_begin("default_color");
+            if (defaultColorIter != aNode.element_end()) {
+                // Move default_color to Appearance/color
+                SimTK::Xml::Element colorElement("color");
+                const SimTK::String& colorAsString = defaultColorIter->getValue();
+                colorElement.setValue(colorAsString);
+                appearanceElement.appendNode(colorElement);
+            }
+        }
+    }
+    // Call base class now assuming aNode has been corrected for current version
+    Super::updateFromXMLNode(aNode, versionNumber);
+}

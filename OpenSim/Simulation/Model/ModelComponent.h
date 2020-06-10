@@ -89,7 +89,7 @@ public:
     ModelComponent(const std::string& aFileName, 
                    bool aUpdateFromXMLNode = true) SWIG_DECLARE_EXCEPTION;
     /** Construct ModelComponent from a specific node in an XML document. **/
-    //explicit ModelComponent(SimTK::Xml::Element& aNode);
+    explicit ModelComponent(SimTK::Xml::Element& aNode);
 
     // compiler default copy constructor and assignment operator
 
@@ -183,8 +183,8 @@ template <class T> friend class ModelComponentSet;
     // End of System Creation and Access Methods.
     //@} 
 
-    //void updateFromXMLNode(SimTK::Xml::Element& aNode,
-    //    int versionNumber) override;
+    void updateFromXMLNode(SimTK::Xml::Element& aNode,
+        int versionNumber) override;
 
 
 private:

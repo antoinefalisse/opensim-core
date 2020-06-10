@@ -69,12 +69,12 @@ FunctionSet::FunctionSet() :
  *
  * @param aFileName Name of the file.
  */
-//FunctionSet::FunctionSet(const string &aFileName) :
-//    Set<Function>(aFileName, false)
-//{
-//    setNull();
-//    updateFromXMLDocument();
-//}
+FunctionSet::FunctionSet(const string &aFileName) :
+    Set<Function>(aFileName, false)
+{
+    setNull();
+    updateFromXMLDocument();
+}
 
 
 //=============================================================================

@@ -86,12 +86,12 @@ SimbodyEngine::SimbodyEngine() :
 /**
  * Constructor from an XML Document
  */
-//SimbodyEngine::SimbodyEngine(const string &aFileName) :
-//    Object(aFileName, false)
-//{
-//    setNull();
-//    connectSimbodyEngineToModel(*_model);
-//}
+SimbodyEngine::SimbodyEngine(const string &aFileName) :
+    Object(aFileName, false)
+{
+    setNull();
+    connectSimbodyEngineToModel(*_model);
+}
 
 
 //_____________________________________________________________________________

@@ -104,7 +104,6 @@ isEqual(const SimTK::Transform& a, const SimTK::Transform& b) {
 namespace OpenSim {
 template class SimpleProperty<int>;
 template class SimpleProperty<osim_double_adouble>;
-//template class SimpleProperty<osim_double_adouble>;
 template class SimpleProperty<std::string>;
 template class ObjectProperty<Object>;
 }

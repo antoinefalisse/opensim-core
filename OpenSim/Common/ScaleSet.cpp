@@ -40,12 +40,12 @@ ScaleSet::~ScaleSet(void)
 /**
  * Constructor of a scaleSet from a file.
  */
-//ScaleSet::ScaleSet(const string& scalesFileName):
-//Set<Scale>(scalesFileName, false)
-//{
-//    setNull();
-//    updateFromXMLDocument();
-//}
+ScaleSet::ScaleSet(const string& scalesFileName):
+Set<Scale>(scalesFileName, false)
+{
+    setNull();
+    updateFromXMLDocument();
+}
 
 //_____________________________________________________________________________
 /**

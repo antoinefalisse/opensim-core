@@ -337,9 +337,9 @@ protected:
     object that has the "file" attribute will read in its contents from that 
     file rather than from the supplied XML document, and the version number
     will be taken from that file rather than the argument supplied here. **/
-	/*virtual void readFromXMLElement
+	virtual void readFromXMLElement
 	(SimTK::Xml::Element& propertyElement,
-		int                  versionNumber) {};*/
+		int                  versionNumber) {};
 
     /** Output a serialized representation of this property by writing its
     value to the given XML property element. If the "use default value" 
@@ -357,8 +357,8 @@ protected:
     @endcode
     and that is the only format produced here since the empty-valued property
     element is supplied (with the property name as its tag). **/
-    /*virtual void writeToXMLElement
-       (SimTK::Xml::Element& propertyElement) const = 0;*/
+    virtual void writeToXMLElement
+       (SimTK::Xml::Element& propertyElement) const = 0;
 
 
     /** How may values are currently stored in this property? If this is an

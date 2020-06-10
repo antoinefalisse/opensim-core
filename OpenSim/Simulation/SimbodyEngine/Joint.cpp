@@ -31,6 +31,7 @@
 #include <OpenSim/Common/ScaleSet.h>
 #include "simbody/internal/Constraint.h"
 #include "simbody/internal/MobilizedBody_Ground.h"
+#include <OpenSim/Common/XMLDocument.h>
 
 //==============================================================================
 // STATICS
@@ -530,213 +531,213 @@ osim_double_adouble Joint::calcPower(const SimTK::State &s) const
 //    return FB_G;
 //}
 
-//void Joint::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
-//{
-//    int documentVersion = versionNumber;
-//    //bool converting = false;
-//    if (documentVersion < XMLDocument::getLatestVersion()){
-//        if (documentVersion<30500){
-//            XMLDocument::renameChildNode(aNode, "location", "location_in_child"); 
-//            XMLDocument::renameChildNode(aNode, "orientation", "orientation_in_child");
-//        }
-//        // Version 30501 converted Connector_Body_ to Connector_PhysicalFrame_
-//        if (documentVersion < 30501) {
-//            // Handle any models that have the Joint connecting to Bodies instead
-//            // of PhyscialFrames
-//            XMLDocument::renameChildNode(aNode, "Connector_Body_",
-//                                                "Connector_PhysicalFrame_");
-//        }
-//        // Version 30505 changed "parent_body" connector name to "parent_frame"
-//        // Convert location and orientation into PhysicalOffsetFrames owned by the Joint
-//        if (documentVersion < 30505) {
-//            // Elements for the parent and child names the joint connects
-//            SimTK::Xml::element_iterator parentNameElt;
-//            SimTK::Xml::element_iterator childNameElt;
-//            // The names of the two PhysicalFrames this joint connects
-//            std::string parentFrameName("");
-//            std::string childFrameName("");
-//
-//            SimTK::Xml::element_iterator connectors_node = aNode.element_begin("connectors");
-//
-//            SimTK::Xml::element_iterator connectorElement =
-//                connectors_node->element_begin("Connector_PhysicalFrame_");
-//            while (connectorElement != aNode.element_end()) {
-//                // If connector name is "parent_body" rename it to "parent_frame"
-//                if (connectorElement->getRequiredAttributeValue("name") == "parent_body") {
-//                    connectorElement->setAttributeValue("name", "parent_frame");
-//                }
-//                // If connector name is "parent_frame" get the name of the connectee
-//                if (connectorElement->getRequiredAttributeValue("name") == "parent_frame"){
-//                    parentNameElt = connectorElement->element_begin("connectee_name");
-//                    parentNameElt->getValueAs<std::string>(parentFrameName);
-//                }
-//                if (connectorElement->getRequiredAttributeValue("name") == "child_body") {
-//                    connectorElement->setAttributeValue("name", "child_frame");
-//                }
-//                if (connectorElement->getRequiredAttributeValue("name") == "child_frame") {
-//                    childNameElt =  connectorElement->element_begin("connectee_name");
-//                    childNameElt->getValueAs<std::string>(childFrameName);
-//                }
-//                ++connectorElement;
-//            }
-//
-//            SimTK::Xml::element_iterator locParentElt =
-//                aNode.element_begin("location_in_parent");
-//            SimTK::Xml::element_iterator orientParentElt =
-//                aNode.element_begin("orientation_in_parent");
-//            SimTK::Xml::element_iterator locChildElt =
-//                aNode.element_begin("location_in_child");
-//            SimTK::Xml::element_iterator orientChildElt =
-//                aNode.element_begin("orientation_in_child");
-//
-//            Vec3 location_in_parent(0);
-//            Vec3 orientation_in_parent(0);
-//            Vec3 location_in_child(0);
-//            Vec3 orientation_in_child(0);
-//
-//            if (locParentElt != aNode.element_end()){
-//                locParentElt->getValueAs<Vec3>(location_in_parent);
-//            }
-//            if (orientParentElt != aNode.element_end()){
-//                orientParentElt->getValueAs<Vec3>(orientation_in_parent);
-//            }
-//            if (locChildElt != aNode.element_end()){
-//                locChildElt->getValueAs<Vec3>(location_in_child);
-//            }
-//            if (orientChildElt != aNode.element_end()){
-//                orientChildElt->getValueAs<Vec3>(orientation_in_child);
-//            }
-//
-//            // now append updated frames to the property list if they are not
-//            // identity transforms.
-//            if ((location_in_parent.norm() > 0.0) ||
-//                (orientation_in_parent.norm() > 0.0)) {
-//                XMLDocument::addPhysicalOffsetFrame(aNode, parentFrameName+"_offset",
-//                    parentFrameName, location_in_parent, orientation_in_parent);
-//                parentNameElt->setValue(parentFrameName + "_offset");
-//            }
-//
-//            // again for the offset frame on the child
-//            if ((location_in_child.norm() > 0.0) ||
-//                (orientation_in_child.norm() > 0.0)) {
-//                XMLDocument::addPhysicalOffsetFrame(aNode, childFrameName + "_offset",
-//                    childFrameName, location_in_child, orientation_in_child);
-//                childNameElt->setValue(childFrameName + "_offset");
-//            }
-//        }
-//
-//        // Version 30507 replaced Joint's CoordinateSet with a "coordinates"
-//        // list property.
-//        if (documentVersion < 30507) {
-//            if (aNode.hasElement("CoordinateSet")) {
-//                auto coordSetIter = aNode.element_begin("CoordinateSet");
-//                if (coordSetIter->hasElement("objects")) {
-//                    auto coordIter = coordSetIter->getRequiredElement("objects")
-//                                                   .element_begin("Coordinate");
-//                    if (coordIter != aNode.element_end()) {
-//                        // A "CoordinateSet" element exists, it contains an
-//                        // "objects" element, and the "objects" element contains
-//                        // at least one "Coordinate" element.
-//
-//                        // Create an element for the new layout.
-//                        Xml::Element coordinatesElement("coordinates");
-//                        // Copy all "Coordinate" elements from the old layout.
-//                        while (coordIter != aNode.element_end()) {
-//                            coordinatesElement.appendNode(coordIter->clone());
-//                            ++coordIter;
-//                        }
-//                        // Insert new "coordinates" element.
-//                        aNode.insertNodeAfter(coordSetIter, coordinatesElement);
-//                    }
-//                }
-//
-//                // Remove old "CoordinateSet" element.
-//                aNode.eraseNode(coordSetIter);
-//            }
-//        }
-//
-//        // Version 30514 removed the user-facing "reverse" property from Joint.
-//        // The parent and child frames are swapped if a "reverse" element is
-//        // found and its value is "true".
-//        if (documentVersion < 30514) {
-//            auto reverseElt = aNode.element_begin("reverse");
-//
-//            if (reverseElt != aNode.element_end()) {
-//                bool swapFrames = false;
-//                reverseElt->getValue().tryConvertToBool(swapFrames);
-//
-//                if (swapFrames) {
-//                    std::string oldParentFrameName = "";
-//                    std::string oldChildFrameName  = "";
-//
-//                    // Find names of parent and child frames. If more than one
-//                    // "parent_frame" or "child_frame" element exists, keep the
-//                    // first one. The "parent_frame" and "child_frame" elements
-//                    // may be listed in either order.
-//                    SimTK::Xml::element_iterator connectorsNode =
-//                        aNode.element_begin("connectors");
-//                    SimTK::Xml::element_iterator connectorElt = connectorsNode->
-//                        element_begin("Connector_PhysicalFrame_");
-//                    SimTK::Xml::element_iterator connecteeNameElt;
-//
-//                    while (connectorElt != connectorsNode->element_end())
-//                    {
-//                        if (connectorElt->getRequiredAttributeValue("name") ==
-//                            "parent_frame" && oldParentFrameName.empty())
-//                        {
-//                            connecteeNameElt = connectorElt->
-//                                               element_begin("connectee_name");
-//                            connecteeNameElt->getValueAs<std::string>(
-//                                oldParentFrameName);
-//                        }
-//                        else if (connectorElt->getRequiredAttributeValue("name")
-//                                 == "child_frame" && oldChildFrameName.empty())
-//                        {
-//                            connecteeNameElt = connectorElt->
-//                                               element_begin("connectee_name");
-//                            connecteeNameElt->getValueAs<std::string>(
-//                                oldChildFrameName);
-//                        }
-//                        ++connectorElt;
-//                    }
-//
-//                    // Swap parent and child frame names. If more than one
-//                    // "parent_frame" or "child_frame" element exists, assign
-//                    // the same value to all such elements.
-//                    connectorsNode = aNode.element_begin("connectors");
-//                    connectorElt = connectorsNode->element_begin(
-//                                   "Connector_PhysicalFrame_");
-//
-//                    while (connectorElt != connectorsNode->element_end())
-//                    {
-//                        if (connectorElt->getRequiredAttributeValue("name") ==
-//                            "parent_frame")
-//                        {
-//                            connecteeNameElt = connectorElt->
-//                                               element_begin("connectee_name");
-//                            connecteeNameElt->setValue(oldChildFrameName);
-//                        }
-//                        else if (connectorElt->getRequiredAttributeValue("name")
-//                                 == "child_frame")
-//                        {
-//                            connecteeNameElt = connectorElt->
-//                                               element_begin("connectee_name");
-//                            connecteeNameElt->setValue(oldParentFrameName);
-//                        }
-//                        ++connectorElt;
-//                    }
-//                }
-//
-//                // Remove "reverse" element regardless of its value (it is no
-//                // longer a property of Joint).
-//                aNode.eraseNode(reverseElt);
-//            }
-//        }
-//
-//    }
-//
-//    Super::updateFromXMLNode(aNode, versionNumber);
-//}
+void Joint::updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber)
+{
+    int documentVersion = versionNumber;
+    //bool converting = false;
+    if (documentVersion < XMLDocument::getLatestVersion()){
+        if (documentVersion<30500){
+            XMLDocument::renameChildNode(aNode, "location", "location_in_child"); 
+            XMLDocument::renameChildNode(aNode, "orientation", "orientation_in_child");
+        }
+        // Version 30501 converted Connector_Body_ to Connector_PhysicalFrame_
+        if (documentVersion < 30501) {
+            // Handle any models that have the Joint connecting to Bodies instead
+            // of PhyscialFrames
+            XMLDocument::renameChildNode(aNode, "Connector_Body_",
+                                                "Connector_PhysicalFrame_");
+        }
+        // Version 30505 changed "parent_body" connector name to "parent_frame"
+        // Convert location and orientation into PhysicalOffsetFrames owned by the Joint
+        if (documentVersion < 30505) {
+            // Elements for the parent and child names the joint connects
+            SimTK::Xml::element_iterator parentNameElt;
+            SimTK::Xml::element_iterator childNameElt;
+            // The names of the two PhysicalFrames this joint connects
+            std::string parentFrameName("");
+            std::string childFrameName("");
+
+            SimTK::Xml::element_iterator connectors_node = aNode.element_begin("connectors");
+
+            SimTK::Xml::element_iterator connectorElement =
+                connectors_node->element_begin("Connector_PhysicalFrame_");
+            while (connectorElement != aNode.element_end()) {
+                // If connector name is "parent_body" rename it to "parent_frame"
+                if (connectorElement->getRequiredAttributeValue("name") == "parent_body") {
+                    connectorElement->setAttributeValue("name", "parent_frame");
+                }
+                // If connector name is "parent_frame" get the name of the connectee
+                if (connectorElement->getRequiredAttributeValue("name") == "parent_frame"){
+                    parentNameElt = connectorElement->element_begin("connectee_name");
+                    parentNameElt->getValueAs<std::string>(parentFrameName);
+                }
+                if (connectorElement->getRequiredAttributeValue("name") == "child_body") {
+                    connectorElement->setAttributeValue("name", "child_frame");
+                }
+                if (connectorElement->getRequiredAttributeValue("name") == "child_frame") {
+                    childNameElt =  connectorElement->element_begin("connectee_name");
+                    childNameElt->getValueAs<std::string>(childFrameName);
+                }
+                ++connectorElement;
+            }
+
+            SimTK::Xml::element_iterator locParentElt =
+                aNode.element_begin("location_in_parent");
+            SimTK::Xml::element_iterator orientParentElt =
+                aNode.element_begin("orientation_in_parent");
+            SimTK::Xml::element_iterator locChildElt =
+                aNode.element_begin("location_in_child");
+            SimTK::Xml::element_iterator orientChildElt =
+                aNode.element_begin("orientation_in_child");
+
+            Vec3 location_in_parent(0);
+            Vec3 orientation_in_parent(0);
+            Vec3 location_in_child(0);
+            Vec3 orientation_in_child(0);
+
+            if (locParentElt != aNode.element_end()){
+                locParentElt->getValueAs<Vec3>(location_in_parent);
+            }
+            if (orientParentElt != aNode.element_end()){
+                orientParentElt->getValueAs<Vec3>(orientation_in_parent);
+            }
+            if (locChildElt != aNode.element_end()){
+                locChildElt->getValueAs<Vec3>(location_in_child);
+            }
+            if (orientChildElt != aNode.element_end()){
+                orientChildElt->getValueAs<Vec3>(orientation_in_child);
+            }
+
+            // now append updated frames to the property list if they are not
+            // identity transforms.
+            if ((location_in_parent.norm() > 0.0) ||
+                (orientation_in_parent.norm() > 0.0)) {
+                XMLDocument::addPhysicalOffsetFrame(aNode, parentFrameName+"_offset",
+                    parentFrameName, location_in_parent, orientation_in_parent);
+                parentNameElt->setValue(parentFrameName + "_offset");
+            }
+
+            // again for the offset frame on the child
+            if ((location_in_child.norm() > 0.0) ||
+                (orientation_in_child.norm() > 0.0)) {
+                XMLDocument::addPhysicalOffsetFrame(aNode, childFrameName + "_offset",
+                    childFrameName, location_in_child, orientation_in_child);
+                childNameElt->setValue(childFrameName + "_offset");
+            }
+        }
+
+        // Version 30507 replaced Joint's CoordinateSet with a "coordinates"
+        // list property.
+        if (documentVersion < 30507) {
+            if (aNode.hasElement("CoordinateSet")) {
+                auto coordSetIter = aNode.element_begin("CoordinateSet");
+                if (coordSetIter->hasElement("objects")) {
+                    auto coordIter = coordSetIter->getRequiredElement("objects")
+                                                   .element_begin("Coordinate");
+                    if (coordIter != aNode.element_end()) {
+                        // A "CoordinateSet" element exists, it contains an
+                        // "objects" element, and the "objects" element contains
+                        // at least one "Coordinate" element.
+
+                        // Create an element for the new layout.
+                        Xml::Element coordinatesElement("coordinates");
+                        // Copy all "Coordinate" elements from the old layout.
+                        while (coordIter != aNode.element_end()) {
+                            coordinatesElement.appendNode(coordIter->clone());
+                            ++coordIter;
+                        }
+                        // Insert new "coordinates" element.
+                        aNode.insertNodeAfter(coordSetIter, coordinatesElement);
+                    }
+                }
+
+                // Remove old "CoordinateSet" element.
+                aNode.eraseNode(coordSetIter);
+            }
+        }
+
+        // Version 30514 removed the user-facing "reverse" property from Joint.
+        // The parent and child frames are swapped if a "reverse" element is
+        // found and its value is "true".
+        if (documentVersion < 30514) {
+            auto reverseElt = aNode.element_begin("reverse");
+
+            if (reverseElt != aNode.element_end()) {
+                bool swapFrames = false;
+                reverseElt->getValue().tryConvertToBool(swapFrames);
+
+                if (swapFrames) {
+                    std::string oldParentFrameName = "";
+                    std::string oldChildFrameName  = "";
+
+                    // Find names of parent and child frames. If more than one
+                    // "parent_frame" or "child_frame" element exists, keep the
+                    // first one. The "parent_frame" and "child_frame" elements
+                    // may be listed in either order.
+                    SimTK::Xml::element_iterator connectorsNode =
+                        aNode.element_begin("connectors");
+                    SimTK::Xml::element_iterator connectorElt = connectorsNode->
+                        element_begin("Connector_PhysicalFrame_");
+                    SimTK::Xml::element_iterator connecteeNameElt;
+
+                    while (connectorElt != connectorsNode->element_end())
+                    {
+                        if (connectorElt->getRequiredAttributeValue("name") ==
+                            "parent_frame" && oldParentFrameName.empty())
+                        {
+                            connecteeNameElt = connectorElt->
+                                               element_begin("connectee_name");
+                            connecteeNameElt->getValueAs<std::string>(
+                                oldParentFrameName);
+                        }
+                        else if (connectorElt->getRequiredAttributeValue("name")
+                                 == "child_frame" && oldChildFrameName.empty())
+                        {
+                            connecteeNameElt = connectorElt->
+                                               element_begin("connectee_name");
+                            connecteeNameElt->getValueAs<std::string>(
+                                oldChildFrameName);
+                        }
+                        ++connectorElt;
+                    }
+
+                    // Swap parent and child frame names. If more than one
+                    // "parent_frame" or "child_frame" element exists, assign
+                    // the same value to all such elements.
+                    connectorsNode = aNode.element_begin("connectors");
+                    connectorElt = connectorsNode->element_begin(
+                                   "Connector_PhysicalFrame_");
+
+                    while (connectorElt != connectorsNode->element_end())
+                    {
+                        if (connectorElt->getRequiredAttributeValue("name") ==
+                            "parent_frame")
+                        {
+                            connecteeNameElt = connectorElt->
+                                               element_begin("connectee_name");
+                            connecteeNameElt->setValue(oldChildFrameName);
+                        }
+                        else if (connectorElt->getRequiredAttributeValue("name")
+                                 == "child_frame")
+                        {
+                            connecteeNameElt = connectorElt->
+                                               element_begin("connectee_name");
+                            connecteeNameElt->setValue(oldParentFrameName);
+                        }
+                        ++connectorElt;
+                    }
+                }
+
+                // Remove "reverse" element regardless of its value (it is no
+                // longer a property of Joint).
+                aNode.eraseNode(reverseElt);
+            }
+        }
+
+    }
+
+    Super::updateFromXMLNode(aNode, versionNumber);
+}
 
 int Joint::assignSystemIndicesToBodyAndCoordinates(
     const SimTK::MobilizedBody& mobod,

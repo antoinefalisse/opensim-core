@@ -145,14 +145,14 @@ public:
     // is left to concrete Property_Deprecated objects like PropertyInt.
     Property_Deprecated* clone() const override = 0;
 
-    //virtual void readFromXMLElement
-    //   (SimTK::Xml::Element& propertyElement,
-    //    int                  versionNumber) override
-    //{assert(!"Property_Deprecated::readFromXMLElement not implemented");}
+    virtual void readFromXMLElement
+       (SimTK::Xml::Element& propertyElement,
+        int                  versionNumber) override
+    {assert(!"Property_Deprecated::readFromXMLElement not implemented");}
 
-    //virtual void writeToXMLElement
-    //   (SimTK::Xml::Element& propertyElement) const override
-    //{assert(!"Property_Deprecated::writeToXMLElement not implemented");}
+    virtual void writeToXMLElement
+       (SimTK::Xml::Element& propertyElement) const override
+    {assert(!"Property_Deprecated::writeToXMLElement not implemented");}
 
     // Override for array types.
     int getNumValues() const override {return 1;}

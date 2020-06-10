@@ -115,8 +115,8 @@ protected:
 
     /** Deserialization from XML, necessary so that derived classes can 
     (de)serialize. **/
-    //Force(SimTK::Xml::Element& node) : Super(node) 
-    //{   setNull(); constructProperties(); }
+    Force(SimTK::Xml::Element& node) : Super(node) 
+    {   setNull(); constructProperties(); }
 
     //--------------------------------------------------------------------------
     // ModelComponent interface.
@@ -218,8 +218,8 @@ protected:
                                SimTK::Vector&       generalizedForces) const;
 
 protected:
-    //void updateFromXMLNode(SimTK::Xml::Element& node,
-    //                       int versionNumber) override;
+    void updateFromXMLNode(SimTK::Xml::Element& node,
+                           int versionNumber) override;
 
     /** ID for the force in Simbody. */
     SimTK::ResetOnCopy<SimTK::ForceIndex> _index;

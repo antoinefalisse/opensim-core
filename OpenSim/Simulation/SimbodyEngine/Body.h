@@ -110,8 +110,8 @@ private:
     void constructProperties();
 
     /** Override of the default implementation to account for versioning. */
-    //void updateFromXMLNode(SimTK::Xml::Element& aNode,
-    //    int versionNumber = -1) override;
+    void updateFromXMLNode(SimTK::Xml::Element& aNode,
+        int versionNumber = -1) override;
 
     /** Return the equivalent (internal) SimTK::Rigid::Body for this body.
     Not valid until after extendAddToSystem on Body has been called.*/

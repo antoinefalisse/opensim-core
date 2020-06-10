@@ -387,11 +387,11 @@ public:
     Component();
 
     /** Construct Component from an XML file. **/
-    //Component(const std::string& aFileName,
-    //    bool aUpdateFromXMLNode = true) SWIG_DECLARE_EXCEPTION;
+    Component(const std::string& aFileName,
+        bool aUpdateFromXMLNode = true) SWIG_DECLARE_EXCEPTION;
 
     /** Construct Component from a specific node in an XML document. **/
-    //explicit Component(SimTK::Xml::Element& aNode);
+    explicit Component(SimTK::Xml::Element& aNode);
 
     /** Use default copy constructor and assignment operator. */
     Component(const Component&) = default;
@@ -2689,8 +2689,8 @@ protected:
     }
 
     /// Handle a change in XML syntax for Sockets.
-    //void updateFromXMLNode(SimTK::Xml::Element& node, int versionNumber)
-    //        override;
+    void updateFromXMLNode(SimTK::Xml::Element& node, int versionNumber)
+            override;
 
 private:
     // Reference to the owning Component of this Component. It is not the

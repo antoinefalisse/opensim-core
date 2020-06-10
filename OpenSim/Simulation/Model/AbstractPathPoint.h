@@ -93,7 +93,7 @@ public:
         PhysicalFrame. 
         @note If overriding updateFromXMLNode of derived classes, do not
         forget to invoke Super::updateFromXMLNode to include this update.*/
-    //void updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber) override;
+    void updateFromXMLNode(SimTK::Xml::Element& aNode, int versionNumber) override;
 
 //=============================================================================
 };  // END of class AbstractPathPoint

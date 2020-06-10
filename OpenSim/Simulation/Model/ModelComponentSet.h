@@ -77,11 +77,11 @@ public:
      * @param[in]   aUpdateFromXMLNode  
      *                          (Advanced) Used to avoid duplicate XML parsing.
      */
-    //ModelComponentSet(Model& model, const std::string& fileName, 
-    //                  bool aUpdateFromXMLNode = true) 
-    //:   Set<T>(fileName, aUpdateFromXMLNode), _model(&model)
-    //{
-    //}
+    ModelComponentSet(Model& model, const std::string& fileName, 
+                      bool aUpdateFromXMLNode = true) 
+    :   Set<T>(fileName, aUpdateFromXMLNode), _model(&model)
+    {
+    }
     /**
      * Copy constructor.
      *
