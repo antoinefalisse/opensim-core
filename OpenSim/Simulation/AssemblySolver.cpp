@@ -42,7 +42,7 @@ AssemblySolver::AssemblySolver
 {
     setAuthors("Ajay Seth");
     _assembler = NULL;
-    
+
     _constraintWeight = constraintWeight;
 
     // default accuracy
@@ -54,8 +54,8 @@ AssemblySolver::AssemblySolver
     SimTK::Array_<CoordinateReference>::iterator p;
 
     // Cycle through coordinate references
-    for(p = _coordinateReferencesp.begin(); 
-        p != _coordinateReferencesp.end(); p++) 
+    for(p = _coordinateReferencesp.begin();
+        p != _coordinateReferencesp.end(); p++)
     {
         if(p){
             //Find if any references that are empty and throw them away
@@ -78,8 +78,8 @@ void AssemblySolver::setAccuracy(double accuracy)
     _assembler.reset();
 }
 
-/* Internal method to convert the CoordinateReferences into goals of the 
-   assembly solver. Subclasses, override and call base to include other goals  
+/* Internal method to convert the CoordinateReferences into goals of the
+   assembly solver. Subclasses, override and call base to include other goals
    such as point of interest matching (Marker tracking). This method is
    automatically called by assemble. */
 void AssemblySolver::setupGoals(SimTK::State &s)
@@ -102,7 +102,7 @@ void AssemblySolver::setupGoals(SimTK::State &s)
     for(int i=0; i<modelCoordSet.getSize(); ++i){
         const Coordinate& coord = modelCoordSet[i];
         if(coord.getClamped(s)){
-            _assembler->restrictQ(coord.getBodyIndex(), 
+            _assembler->restrictQ(coord.getBodyIndex(),
                 MobilizerQIndex(coord.getMobilizerQIndex()),
                 coord.getRangeMin(), coord.getRangeMax());
         }
@@ -111,7 +111,7 @@ void AssemblySolver::setupGoals(SimTK::State &s)
     SimTK::Array_<CoordinateReference>::iterator p;
 
     // Cycle through coordinate references
-    for(p = _coordinateReferencesp.begin(); 
+    for(p = _coordinateReferencesp.begin();
         p != _coordinateReferencesp.end(); p++) {
         if(p){
             CoordinateReference *coordRef = p;
@@ -120,7 +120,7 @@ void AssemblySolver::setupGoals(SimTK::State &s)
                 _assembler->lockQ(coord.getBodyIndex(), SimTK::MobilizerQIndex(coord.getMobilizerQIndex()));
                 //No longer need the lock on
                 coord.setLocked(s, false);
-                
+
                 //Get rid of the corresponding reference too
                 _coordinateReferencesp.erase(p);
                 p--; //decrement since erase automatically points to next in the list
@@ -137,7 +137,7 @@ void AssemblySolver::setupGoals(SimTK::State &s)
         }
     }
 
-    unsigned int nqrefs  = _coordinateReferencesp.size(), 
+    unsigned int nqrefs  = _coordinateReferencesp.size(),
                  nqgoals = _coordinateAssemblyConditions.size();
     //Should have a one-to-one matched arrays
     if(nqrefs != nqgoals)
@@ -151,18 +151,18 @@ void AssemblySolver::updateCoordinateReference(const std::string &coordName, dou
     SimTK::Array_<CoordinateReference>::iterator p;
 
     // Cycle through coordinate references
-    for(p = _coordinateReferencesp.begin(); 
+    for(p = _coordinateReferencesp.begin();
         p != _coordinateReferencesp.end(); p++) {
         if(p->getName() == coordName){
             p->setValueFunction(*new Constant(value));
             p->setWeight(weight);
             return;
         }
-    }       
+    }
 }
 
 
-/* Internal method to update the time, reference values and/or their 
+/* Internal method to update the time, reference values and/or their
         weights that define the goals, based on the passed in state. */
 void AssemblySolver::updateGoals(SimTK::State &s)
 {
@@ -178,29 +178,29 @@ void AssemblySolver::updateGoals(SimTK::State &s)
 //______________________________________________________________________________
 /*
  * Assemble the model such that it satisfies configuration goals and constraints
- * The input state is used to initialize the assembly and then is updated to 
+ * The input state is used to initialize the assembly and then is updated to
  * return the resulting assembled configuration.
  */
 void AssemblySolver::assemble(SimTK::State &state)
 {
-    // Make a working copy of the state that will be used to set the internal 
-    // state of the solver. This is necessary because we may wish to disable 
-    // redundant constraints, but do not want this to affect the state of 
+    // Make a working copy of the state that will be used to set the internal
+    // state of the solver. This is necessary because we may wish to disable
+    // redundant constraints, but do not want this to affect the state of
     // constraints the user expects
     SimTK::State s = state;
-    
+
     // Make sure goals are up-to-date.
     setupGoals(s);
 
     // Let assembler perform some internal setup
     _assembler->initialize(s);
-    
+
     // Useful to include through debug message/log in the future
     log_debug("UNASSEMBLED CONFIGURATION (normerr={}, maxerr={}, cost={})",
         _assembler->calcCurrentErrorNorm(),
         max(abs(_assembler->getInternalState().getQErr())),
         _assembler->calcCurrentGoal());
-    log_debug("Model numQs: {} Assembler num freeQs: {}",  
+    log_debug("Model numQs: {} Assembler num freeQs: {}",
         _assembler->getInternalState().getNQ(),  _assembler->getNumFreeQs());
 
     try{
@@ -221,7 +221,7 @@ void AssemblySolver::assemble(SimTK::State &state)
         }
         // TODO: Useful to include through debug message/log in the future
         log_debug("ASSEMBLED CONFIGURATION (acc={} tol={} normerr={}, maxerr={}, cost={})",
-            _assembler->getAccuracyInUse(), _assembler->getErrorToleranceInUse(), 
+            _assembler->getAccuracyInUse(), _assembler->getErrorToleranceInUse(),
             _assembler->calcCurrentErrorNorm(), max(abs(_assembler->getInternalState().getQErr())),
             _assembler->calcCurrentGoal());
         log_debug("# initializations={}", _assembler->getNumInitializations());
@@ -238,7 +238,7 @@ void AssemblySolver::assemble(SimTK::State &state)
     }
 }
 
-/* Obtain a model configuration that meets the assembly conditions  
+/* Obtain a model configuration that meets the assembly conditions
     (desired values and constraints) given a state that satisfies or
     is close to satisfying the constraints. Note there can be no change
     in the number of constraints or desired coordinates. Desired
@@ -259,8 +259,8 @@ void AssemblySolver::track(SimTK::State &s)
 
     // TODO: Useful to include through debug message/log in the future
     log_debug("UNASSEMBLED(track) CONFIGURATION (normerr={}, maxerr={}, cost={})",
-        _assembler->calcCurrentErrorNorm(), 
-        max(abs(_assembler->getInternalState().getQErr())), 
+        _assembler->calcCurrentErrorNorm(),
+        max(abs(_assembler->getInternalState().getQErr())),
         _assembler->calcCurrentGoal() );
     log_debug("Model numQs: {}  Assembler num freeQs: {}",
         _assembler->getInternalState().getNQ(), _assembler->getNumFreeQs());
@@ -269,20 +269,43 @@ void AssemblySolver::track(SimTK::State &s)
         // Now do the assembly and return the updated state.
         _assembler->track(s.getTime());
 
-        // update the state from the result of the assembler 
+        // update the state from the result of the assembler
         _assembler->updateFromInternalState(s);
-        
+
         // TODO: Useful to include through debug message/log in the future
-        log_debug("Tracking: t= {} (acc={} tol={} normerr={}, maxerr={}, cost={})", 
+        log_debug("Tracking: t= {} (acc={} tol={} normerr={}, maxerr={}, cost={})",
             s.getTime(),
-            _assembler->getAccuracyInUse(), _assembler->getErrorToleranceInUse(), 
+            _assembler->getAccuracyInUse(), _assembler->getErrorToleranceInUse(),
             _assembler->calcCurrentErrorNorm(), max(abs(_assembler->getInternalState().getQErr())),
-            _assembler->calcCurrentGoal()); 
+            _assembler->calcCurrentGoal());
     }
     catch (const std::exception& ex)
     {
         log_info( "AssemblySolver::track() attempt Failed: {}", ex.what());
         throw Exception("AssemblySolver::track() attempt failed.");
+    }
+}
+
+// Addition for the Kalman Smoother
+void AssemblySolver::setState(SimTK::State &s)
+{
+
+	// move the target locations or angles, etc... just do not change number of goals
+	// and their type (constrained vs. weighted)
+
+	if(_assembler && _assembler->isInitialized()){}
+    else{
+		throw Exception("AssemblySolver::setState() failed: assemble() must be called first.");
+	}
+
+	try{
+		// update the state from the result of the assembler
+		_assembler->initialize(s);
+	}
+	catch (const std::exception& ex)
+    {
+		std::cout << "AssemblySolver::setState() attempt Failed: " << ex.what() << std::endl;
+		throw Exception("AssemblySolver::setState() attempt failed.");
     }
 }
 
